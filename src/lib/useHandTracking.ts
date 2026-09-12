@@ -106,7 +106,7 @@ export function useHandTracking(
         if (hand && hand.length > 8) {
           lastSeenRef.current = ts;
           // average of wrist + middle-finger MCP for a stable palm center
-          const px = (hand[0].x + hand[9].x) / 2;
+          const px = ((hand[0]?.x ?? 0.5) + (hand[9]?.x ?? 0.5)) / 2;
           const mirrored = 1 - px; // video is mirrored for the user
           setRawX(mirrored);
 
