@@ -45,25 +45,28 @@ export default function HandRacer() {
         <aside className="space-y-5">
           <div className="rounded-2xl border border-border bg-card p-4">
             <p className="mb-3 font-display text-sm text-foreground">{statusLabel}</p>
-            {status === "ready" ? (
-              <HandCam
-                videoRef={videoRef}
-                handVisible={handVisible}
-                rawX={rawX}
-                deadZone={deadZone}
-              />
-            ) : (
-              <>
-                <video ref={videoRef} playsInline muted className="hidden" />
+            <HandCam
+              videoRef={videoRef}
+              handVisible={handVisible}
+              rawX={rawX}
+              deadZone={deadZone}
+              active={status === "ready"}
+            >
+              {status !== "ready" ? (
                 <button
                   onClick={() => void start()}
                   disabled={status === "requesting" || status === "loading"}
-                  className="w-full rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02] disabled:opacity-60"
+                  className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.02] disabled:opacity-60"
                 >
-                  {status === "denied" || status === "error" ? "Try camera again" : "Enable camera"}
+                  {status === "requesting" || status === "loading"
+                    ? "Starting…"
+                    : status === "denied" || status === "error"
+                      ? "Try camera again"
+                      : "Enable camera"}
                 </button>
-              </>
-            )}
+              ) : null}
+            </HandCam>
+
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-4">
