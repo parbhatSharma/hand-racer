@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState, type MutableRefObject } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Phase = "idle" | "running" | "paused" | "over";
 
 interface Props {
-  steerRef: MutableRefObject<number>;
+  steerRef: { current: number };
   handVisible: boolean;
   canStart: boolean;
 }
