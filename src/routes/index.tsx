@@ -1,24 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { ClientOnly } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const HandRacer = lazy(() => import("@/components/HandRacer"));
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Neon Hand Racer — Steer With Your Hand" },
+      {
+        name: "description",
+        content:
+          "An endless neon racing game steered entirely by your webcam hand movement. No keyboard, no downloads.",
+      },
+      { property: "og:title", content: "Neon Hand Racer — Steer With Your Hand" },
+      {
+        property: "og:description",
+        content: "Endless webcam-controlled racing: move your hand left and right to dodge traffic.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen bg-background px-4 py-8">
+      <ClientOnly fallback={<p className="text-center text-muted-foreground">Loading…</p>}>
+        <Suspense fallback={<p className="text-center text-muted-foreground">Loading…</p>}>
+          <HandRacer />
+        </Suspense>
+      </ClientOnly>
+    </main>
   );
 }
