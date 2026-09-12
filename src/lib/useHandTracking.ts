@@ -92,9 +92,10 @@ export function useHandTracking(
         if (v.currentTime === lastTs) return;
         lastTs = v.currentTime;
 
-        let result: { landmarks?: Array<Array<{ x: number; y: number }>> } | undefined;
+        type HandResult = { landmarks?: Array<Array<{ x: number; y: number }>> };
+        let result: HandResult | undefined;
         try {
-          result = lm.detectForVideo(v, ts) as never;
+          result = lm.detectForVideo(v, ts) as HandResult;
         } catch {
           return;
         }
