@@ -102,7 +102,7 @@ export function RaceGame({ steerRef, handVisible, canStart }: Props) {
           }
           return true;
         });
-        setScore(s.score);
+        setScore((prev) => (prev === s.score ? prev : s.score));
 
         const carY = H - 110;
         for (const o of s.obstacles) {
